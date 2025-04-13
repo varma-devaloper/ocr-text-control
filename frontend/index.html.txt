@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OCR Text Control</title>
+</head>
+<body>
+  <h1>Upload Screenshot</h1>
+  <input type="file" id="fileInput" />
+  <button onclick="uploadImage()">Extract Text</button>
+  <pre id="result"></pre>
+
+  <script>
+    async function uploadImage() {
+      const fileInput = document.getElementById('fileInput');
+      const formData = new FormData();
+      formData.append("image", fileInput.files[0]);
+
+      const res = await fetch("http://127.0.0.1:5000/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      document.getElementById('result').innerText = data.text;
+    }
+  </script>
+</body>
+</html>
